@@ -7,6 +7,6 @@ Standards-Version: 3.9.5
 
 Package: pia-manager
 Architecture: all
-Depends: python
+Depends: python, openvpn, network-manager-openvpn, network-manager-openvpn-gnome
 Description: A VPN configuration tool for PIA, Private Internet Access
  Configure your PIA VPN.
