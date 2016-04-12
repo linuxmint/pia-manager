@@ -1,4 +1,4 @@
 #!/usr/bin/python3
 
 import os
-os.system("/usr/lib/pia-manager/pia-manager.py")
+os.system("gksu /usr/lib/pia-manager/pia-manager.py")
