@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Private Internet Access
+Icon=pia-manager
+Exec=pia-manager
+Terminal=false
+Type=Application
+Categories=Application;System;Settings;XFCE;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;
+StartupNotify=true
