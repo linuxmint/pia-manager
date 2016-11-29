@@ -12,8 +12,6 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
 
-
-
 # i18n
 gettext.install("pia-manager", "/usr/share/locale")
 
@@ -92,17 +90,25 @@ class Manager(Gtk.Application):
         # Gateway combo
         model = Gtk.ListStore(str, str) #id, name
         selected_iter = None
-        with open('/usr/share/pia-manager/gateways.list') as fp:
-            for line in fp:
-                line = line.strip()
-                if not line.startswith("#"):
-                    bits = line.split()
-                    if len(bits) >= 2:
-                        gateway_id = bits[0]
-                        gateway_name = " ".join(bits[1:])
-                        iter = model.append([gateway_id, gateway_name])
-                        if gateway_id == self.gateway_value:
-                            selected_iter = iter
+        # load list of gateways
+        gateway_info = []
+        try:
+            with open('/usr/share/pia-manager/gateways.list.dynamic') as fp:
+                gateway_info = fp.readlines()
+        except IOError:
+            with open('/usr/share/pia-manager/gateways.list') as fp:
+                gateway_info = fp.readlines()
+
+        for line in gateway_info:
+            line = line.strip()
+            if not line.startswith("#"):
+                bits = line.split()
+                if len(bits) >= 2:
+                    gateway_id = bits[0]
+                    gateway_name = " ".join(bits[1:])
+                    iter = model.append([gateway_id, gateway_name])
+                    if gateway_id == self.gateway_value:
+                        selected_iter = iter
 
         self.gateway.set_model(model)
 

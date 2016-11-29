@@ -3,4 +3,6 @@
 sudo rm -rf /usr/lib/pia-manager
 sudo rm -rf /usr/share/pia-manager
 sudo cp -R usr /
+
+# sudo pia-manager --update-gateways
 pia-manager
