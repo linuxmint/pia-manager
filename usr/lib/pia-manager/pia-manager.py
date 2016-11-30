@@ -81,6 +81,7 @@ class Manager(Gtk.Application):
         self.builder.get_object("label_username").set_text(_("PIA username"))
         self.builder.get_object("label_password").set_text(_("PIA password"))
         self.builder.get_object("label_gateway").set_text(_("Gateway"))
+        self.builder.get_object("link_forgot_password").set_markup("<a href='#'>%s</a>" % _("Forgot password?"))
 
         (username, password, self.gateway_value) = self.read_configuration()
         self.username.set_text(username)
@@ -125,6 +126,7 @@ class Manager(Gtk.Application):
         # Signals
         self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
         self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
+        self.builder.get_object("link_forgot_password").connect("activate-link", self.on_forgot_password_clicked)
         self.username.connect("changed", self.check_entries)
         self.password.connect("changed", self.check_entries)
         self.gateway.connect("changed", self.on_combo_changed)
@@ -133,6 +135,10 @@ class Manager(Gtk.Application):
     def on_entry_icon_pressed(self, entry, position, event):
         if position == Gtk.EntryIconPosition.SECONDARY:
             self.password.set_visibility(not self.password.get_visibility())
+
+    def on_forgot_password_clicked(self, label, uri):
+        subprocess.Popen(["su", "-c", "xdg-open https://www.privateinternetaccess.com/pages/reset-password.html", self.linux_username])
+        return True
 
     def on_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
