@@ -1,54 +1,5 @@
 #!/usr/bin/python3
 
-import os, sys, getpass
+import os, getpass
 
-import json
-import urllib.request
-
-
-def update_gateways(use_ips):
-    """Updates the list of PIA gateways. If `use_ips` is true, store IP addresses rather than hostnames."""
-    # TODO: also update the CRL from this call, can be handled in similar way most likely.
-    # grab new gateway json
-    response = urllib.request.urlopen('https://privateinternetaccess.com/vpninfo/servers?version=24')
-    data = response.read()
-    text = data.decode('utf-8')
-
-    # split json from CRL blob
-    server_info_text, crl = text.split('\n\n')
-    server_info = json.loads(server_info_text)
-
-    # assemble file that the manager uses
-    gateway_info = {}
-    for key, info in server_info.items():
-        if key == 'info':
-            continue
-
-        host = info['dns']
-        if use_ips:
-            host = info['openvpn_udp']['best'].split(':')[0]
-        gateway_info[key] = '{host} {name}'.format(host=host, name=info['name'])
-
-    # arrange by the region list we prefer
-    gateway_list = []
-    for key in server_info['info']['auto_regions']:
-        gateway_list.append(gateway_info[key])
-
-    gateways = '\n'.join(gateway_list)
-
-    # write out file
-    with open('/usr/share/pia-manager/gateways.list.dynamic', 'w') as fp:
-        fp.write(gateways)
-
-
-# if they just want to update the gateways, we can do it here
-if __name__ == "__main__":
-    # bit hacky, but it should work fine until we want to use docopt or something
-    if '--update-gateways' in sys.argv:
-        # use-ups is recommended if they are heading to an area that implements DNS blocks against PIA
-        use_ips = '--use-ips' in sys.argv
-        update_gateways(use_ips)
-        sys.exit(0)
-
-# launch the regular app
 os.system("gksu /usr/lib/pia-manager/pia-manager.py '%s'" % getpass.getuser())

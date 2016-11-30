@@ -6,6 +6,8 @@ import subprocess
 import gettext
 import uuid
 import time
+import json
+import urllib.request
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -87,6 +89,31 @@ class Manager(Gtk.Application):
         self.username.set_text(username)
         self.password.set_text(password)
 
+        renderer = Gtk.CellRendererText()
+        self.gateway.pack_start(renderer, True)
+        self.gateway.add_attribute(renderer, "text", 1)
+
+        self.load_combo()
+
+        self.window.show()
+
+        self.add_window(self.window)
+
+        # Signals
+        self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
+        self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
+        self.builder.get_object("link_forgot_password").connect("activate-link", self.on_forgot_password_clicked)
+        self.builder.get_object("button_refresh").connect("clicked", self.on_button_refresh_clicked)
+        self.username.connect("changed", self.check_entries)
+        self.password.connect("changed", self.check_entries)
+        self.gateway.connect("changed", self.on_combo_changed)
+        self.button.connect("clicked", self.save_configuration)
+
+    def on_button_refresh_clicked(self, button):
+        self.download_latest_gateways(False)
+        self.load_combo()
+
+    def load_combo(self):
         # Gateway combo
         model = Gtk.ListStore(str, str) #id, name
         selected_iter = None
@@ -112,25 +139,42 @@ class Manager(Gtk.Application):
 
         self.gateway.set_model(model)
 
-        renderer = Gtk.CellRendererText()
-        self.gateway.pack_start(renderer, True)
-        self.gateway.add_attribute(renderer, "text", 1)
-
         if selected_iter is not None:
             self.gateway.set_active_iter(selected_iter)
 
-        self.window.show()
+    def download_latest_gateways(self, use_ips):
+        """Updates the list of PIA gateways. If `use_ips` is true, store IP addresses rather than hostnames."""
+        # TODO: also update the CRL from this call, can be handled in similar way most likely.
+        # grab new gateway json
+        response = urllib.request.urlopen('https://privateinternetaccess.com/vpninfo/servers?version=24')
+        data = response.read()
+        text = data.decode('utf-8')
 
-        self.add_window(self.window)
+        # split json from CRL blob
+        server_info_text, crl = text.split('\n\n')
+        server_info = json.loads(server_info_text)
 
-        # Signals
-        self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
-        self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
-        self.builder.get_object("link_forgot_password").connect("activate-link", self.on_forgot_password_clicked)
-        self.username.connect("changed", self.check_entries)
-        self.password.connect("changed", self.check_entries)
-        self.gateway.connect("changed", self.on_combo_changed)
-        self.button.connect("clicked", self.save_configuration)
+        # assemble file that the manager uses
+        gateway_info = {}
+        for key, info in server_info.items():
+            if key == 'info':
+                continue
+
+            host = info['dns']
+            if use_ips:
+                host = info['openvpn_udp']['best'].split(':')[0]
+            gateway_info[key] = '{host} {name}'.format(host=host, name=info['name'])
+
+        # arrange by the region list we prefer
+        gateway_list = []
+        for key in server_info['info']['auto_regions']:
+            gateway_list.append(gateway_info[key])
+
+        gateways = '\n'.join(gateway_list)
+
+        # write out file
+        with open('/usr/share/pia-manager/gateways.list.dynamic', 'w') as fp:
+            fp.write(gateways)
 
     def on_entry_icon_pressed(self, entry, position, event):
         if position == Gtk.EntryIconPosition.SECONDARY:
