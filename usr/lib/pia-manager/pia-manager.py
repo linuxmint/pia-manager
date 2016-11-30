@@ -280,7 +280,13 @@ class Manager(Gtk.Application):
         with open(CONFIG_FILE, 'w') as fp:
             fp.writelines(configuration)
         os.system("chmod 600 %s" % CONFIG_FILE)
-        os.system("service network-manager restart")
+        # Restart the network manager
+        if os.path.exists("/bin/systemctl"):
+            # Systemd
+            os.system("systemctl restart NetworkManager")
+        elif os.path.exists("/etc/init.d/network-manager"):
+            # SysV
+            os.system("/etc/init.d/network-manager restart")
         self.button.set_sensitive(False)
 
     def check_entries(self, widget=None):
