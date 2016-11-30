@@ -79,11 +79,7 @@ class Manager(Gtk.Application):
         self.window.set_title("PIA")
         self.window.set_icon_name("pia-manager")
 
-        # l10n
-        self.builder.get_object("label_username").set_text(_("PIA username"))
-        self.builder.get_object("label_password").set_text(_("PIA password"))
-        self.builder.get_object("label_gateway").set_text(_("Gateway"))
-        self.builder.get_object("link_forgot_password").set_markup("<a href='#'>%s</a>" % _("Forgot password?"))
+        self.builder.get_object("link_forgot_password").set_markup("<a href='#'>%s</a>" % self.builder.get_object("link_forgot_password").get_text())
 
         (username, password, self.gateway_value) = self.read_configuration()
         self.username.set_text(username)

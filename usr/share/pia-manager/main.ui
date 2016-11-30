@@ -163,7 +163,7 @@
                       <object class="GtkLabel" id="link_forgot_password">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">&lt;a href="#"&gt;Forgot password?&lt;/a&gt;</property>
+                        <property name="label" translatable="yes">Forgot password?</property>
                         <property name="use_markup">True</property>
                         <property name="xalign">1</property>
                       </object>
@@ -178,6 +178,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Refresh the list of PIA gateways</property>
                         <child>
                           <object class="GtkImage" id="image1">
                             <property name="visible">True</property>

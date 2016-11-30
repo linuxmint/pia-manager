@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 10:54+0000\n"
+"POT-Creation-Date: 2016-11-30 11:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../usr/lib/pia-manager/pia-manager.py:81
+#: usr/share/pia-manager/main.ui.h:1
+msgid "<b><i>Private Internet Access</i></b>"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:2
 msgid "PIA username"
 msgstr ""
 
-#: ../usr/lib/pia-manager/pia-manager.py:82
+#: usr/share/pia-manager/main.ui.h:3
 msgid "PIA password"
 msgstr ""
 
-#: ../usr/lib/pia-manager/pia-manager.py:83
+#: usr/share/pia-manager/main.ui.h:4
 msgid "Gateway"
 msgstr ""
 
-#: ../usr/lib/pia-manager/pia-manager.py:84
+#: usr/share/pia-manager/main.ui.h:5
 msgid "Forgot password?"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:6
+msgid "Refresh the list of PIA gateways"
 msgstr ""

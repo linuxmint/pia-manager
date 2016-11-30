@@ -1,0 +1,8 @@
+#!/bin/bash
+
+intltool-extract --type=gettext/glade usr/share/pia-manager/*.ui
+
+xgettext --language=C --keyword=_ --keyword=N_ --output=pia-manager.pot usr/share/pia-manager/*.ui.h
+xgettext --language=Python --keyword=_ --output=pia-manager.pot --join-existing usr/lib/pia-manager/*.py usr/bin/*
+
+rm -f usr/share/pia-manager/*.ui.h
