@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 11:58+0000\n"
+"POT-Creation-Date: 2016-11-30 12:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: usr/share/pia-manager/main.ui.h:1
-msgid "<b><i>Private Internet Access</i></b>"
+msgid "_File"
 msgstr ""
 
 #: usr/share/pia-manager/main.ui.h:2
-msgid "PIA username"
+msgid "Use IP addresses instead of domain names to point to gateways"
 msgstr ""
 
 #: usr/share/pia-manager/main.ui.h:3
-msgid "PIA password"
+msgid "Use IP addresses"
 msgstr ""
 
 #: usr/share/pia-manager/main.ui.h:4
-msgid "Gateway"
+msgid "_Quit"
 msgstr ""
 
 #: usr/share/pia-manager/main.ui.h:5
-msgid "Forgot password?"
+msgid "_Help"
 msgstr ""
 
 #: usr/share/pia-manager/main.ui.h:6
+msgid "_Contents"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:7
+msgid "_About"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:8
+msgid "<b><i>Private Internet Access</i></b>"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:9
+msgid "PIA username"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:10
+msgid "PIA password"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:11
+msgid "Gateway"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:12
+msgid "Forgot password?"
+msgstr ""
+
+#: usr/share/pia-manager/main.ui.h:13
 msgid "Refresh the list of PIA gateways"
 msgstr ""
