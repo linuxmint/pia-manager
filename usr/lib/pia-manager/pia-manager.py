@@ -81,7 +81,6 @@ class Manager(Gtk.Application):
         self.builder.get_object("label_username").set_text(_("PIA username"))
         self.builder.get_object("label_password").set_text(_("PIA password"))
         self.builder.get_object("label_gateway").set_text(_("Gateway"))
-        self.builder.get_object("checkbutton_show_password").set_label(_("Show password"))
 
         (username, password, self.gateway_value) = self.read_configuration()
         self.username.set_text(username)
@@ -124,15 +123,16 @@ class Manager(Gtk.Application):
         self.add_window(self.window)
 
         # Signals
-        self.builder.get_object("checkbutton_show_password").connect("toggled", self.on_show_password)
+        self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
         self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
         self.username.connect("changed", self.check_entries)
         self.password.connect("changed", self.check_entries)
         self.gateway.connect("changed", self.on_combo_changed)
         self.button.connect("clicked", self.save_configuration)
 
-    def on_show_password(self, checkbox):
-        self.password.set_visibility(checkbox.get_active())
+    def on_entry_icon_pressed(self, entry, position, event):
+        if position == Gtk.EntryIconPosition.SECONDARY:
+            self.password.set_visibility(not self.password.get_visibility())
 
     def on_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
