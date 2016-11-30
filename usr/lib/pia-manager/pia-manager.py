@@ -24,7 +24,7 @@ id=PIA
 uuid=UUID
 type=vpn
 autoconnect=false
-permissions=user:LINUX_USERNAME:;
+permissions=
 secondaries=
 timestamp=TIMESTAMP
 
@@ -279,7 +279,6 @@ class Manager(Gtk.Application):
         configuration = CONFIGURATION.replace("PIA_USERNAME", self.username.get_text())
         configuration = configuration.replace("PIA_PASSWORD", self.password.get_text())
         configuration = configuration.replace("PIA_GATEWAY", self.gateway_value)
-        configuration = configuration.replace("LINUX_USERNAME", self.linux_username)
         configuration = configuration.replace("UUID", str(uuid.uuid4()))
         configuration = configuration.replace("TIMESTAMP", str(int(time.time())))
         with open(CONFIG_FILE, 'w') as fp:
