@@ -98,6 +98,9 @@ class Manager(Gtk.Application):
 
         self.add_window(self.window)
 
+        self.infobar = self.builder.get_object("infobar")
+        self.infobar.hide()
+
         # Configuration
         self.settings = Gio.Settings(schema="com.pia.manager")
         self.skip_dns = self.settings.get_boolean(SKIP_DNS_KEY)
@@ -119,6 +122,7 @@ class Manager(Gtk.Application):
         self.button.connect("clicked", self.save_configuration)
 
     def on_button_refresh_clicked(self, button):
+        self.infobar.hide()
         self.download_latest_gateways()
         self.load_combo()
 
@@ -238,6 +242,7 @@ class Manager(Gtk.Application):
 
 
     def on_combo_changed(self, combo):
+        self.infobar.hide()
         tree_iter = combo.get_active_iter()
         if tree_iter != None:
             model = combo.get_model()
@@ -288,13 +293,14 @@ class Manager(Gtk.Application):
             # SysV
             os.system("/etc/init.d/network-manager restart")
         self.button.set_sensitive(False)
+        self.infobar.show()
 
     def check_entries(self, widget=None):
+        self.infobar.hide()
         if (self.username.get_text() != "" and self.password.get_text() != "" and self.gateway_value is not None):
             self.button.set_sensitive(True)
         else:
             self.button.set_sensitive(False)
-
 
 if __name__ == "__main__":
     linux_username = sys.argv[1]
