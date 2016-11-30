@@ -98,6 +98,7 @@ class Manager(Gtk.Application):
         self.add_window(self.window)
 
         # Signals
+        self.builder.get_object("menuitem_help_contents").connect("activate", self.on_menuitem_help_contents_activated)
         self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
         self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
         self.builder.get_object("link_forgot_password").connect("activate-link", self.on_forgot_password_clicked)
@@ -180,6 +181,10 @@ class Manager(Gtk.Application):
 
     def on_forgot_password_clicked(self, label, uri):
         subprocess.Popen(["su", "-c", "xdg-open https://www.privateinternetaccess.com/pages/reset-password.html", self.linux_username])
+        return True
+
+    def on_menuitem_help_contents_activated(self, menuitem):
+        subprocess.Popen(["su", "-c", "xdg-open https://helpdesk.privateinternetaccess.com", self.linux_username])
         return True
 
     def on_combo_changed(self, combo):
