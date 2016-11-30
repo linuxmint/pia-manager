@@ -40,11 +40,11 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menuitem_use_ips">
+                      <object class="GtkCheckMenuItem" id="menuitem_skip_dns">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Use IP addresses instead of domain names to point to gateways</property>
-                        <property name="label" translatable="yes">Use IP addresses</property>
+                        <property name="tooltip_text" translatable="yes">Use IP addresses instead of domain names to point to PIA gateways</property>
+                        <property name="label" translatable="yes">_Skip DNS resolution</property>
                         <property name="use_underline">True</property>
                       </object>
                     </child>

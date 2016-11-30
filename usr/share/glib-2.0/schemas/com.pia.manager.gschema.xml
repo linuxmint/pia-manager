@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="com.pia.manager" path="/com/pia/manager/">
+    <key type="b" name="skip-dns-resolution">
+      <default>false</default>
+      <summary>Use IP addresses to point to PIA gateways, instead of domain names.</summary>
+      <description>Use this option to work around DNS resolution issues.</description>
+    </key>
+  </schema>
+</schemalist>

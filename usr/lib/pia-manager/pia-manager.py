@@ -50,6 +50,7 @@ ip6-privacy=0
 method=auto"""
 
 CONFIG_FILE = '/etc/NetworkManager/system-connections/PIA'
+SKIP_DNS_KEY = 'skip-dns-resolution'
 
 class Manager(Gtk.Application):
     ''' Create the UI '''
@@ -97,7 +98,14 @@ class Manager(Gtk.Application):
 
         self.add_window(self.window)
 
+        # Configuration
+        self.settings = Gio.Settings(schema="com.pia.manager")
+        self.skip_dns = self.settings.get_boolean(SKIP_DNS_KEY)
+        self.use_ip_addresses_checkbox = self.builder.get_object("menuitem_skip_dns")
+        self.use_ip_addresses_checkbox.set_active(self.skip_dns)
+
         # Signals
+        self.use_ip_addresses_checkbox.connect("toggled", self.on_menuitem_use_ip_addresses_toggled)
         self.builder.get_object("menuitem_quit").connect("activate", self.on_quit)
         self.builder.get_object("menuitem_help_contents").connect("activate", self.on_menuitem_help_contents_activated)
         self.builder.get_object("menuitem_help_about").connect("activate", self.on_menuitem_help_about_activated)
@@ -111,7 +119,13 @@ class Manager(Gtk.Application):
         self.button.connect("clicked", self.save_configuration)
 
     def on_button_refresh_clicked(self, button):
-        self.download_latest_gateways(False)
+        self.download_latest_gateways()
+        self.load_combo()
+
+    def on_menuitem_use_ip_addresses_toggled(self, menuitem):
+        self.skip_dns = menuitem.get_active()
+        self.settings.set_boolean(SKIP_DNS_KEY, self.skip_dns)
+        self.download_latest_gateways()
         self.load_combo()
 
     def load_combo(self):
@@ -143,8 +157,8 @@ class Manager(Gtk.Application):
         if selected_iter is not None:
             self.gateway.set_active_iter(selected_iter)
 
-    def download_latest_gateways(self, use_ips):
-        """Updates the list of PIA gateways. If `use_ips` is true, store IP addresses rather than hostnames."""
+    def download_latest_gateways(self):
+        """Updates the list of PIA gateways. If 'skip-dns-resolution' is true, store IP addresses rather than hostnames."""
         # TODO: also update the CRL from this call, can be handled in similar way most likely.
         # grab new gateway json
         response = urllib.request.urlopen('https://privateinternetaccess.com/vpninfo/servers?version=24')
@@ -162,8 +176,9 @@ class Manager(Gtk.Application):
                 continue
 
             host = info['dns']
-            if use_ips:
+            if self.skip_dns:
                 host = info['openvpn_udp']['best'].split(':')[0]
+
             gateway_info[key] = '{host} {name}'.format(host=host, name=info['name'])
 
         # arrange by the region list we prefer
