@@ -61,7 +61,7 @@ class Manager(Gtk.Application):
             self.get_active_window().present()
         else:
             self.create_window()
-            
+
     def create_window(self):
 
         gladefile = "/usr/share/pia-manager/main.ui"
@@ -77,11 +77,11 @@ class Manager(Gtk.Application):
         self.window.set_title("PIA")
         self.window.set_icon_name("pia-manager")
 
-        # l10n        
+        # l10n
         self.builder.get_object("label_username").set_text(_("PIA username"))
         self.builder.get_object("label_password").set_text(_("PIA password"))
-        self.builder.get_object("label_gateway").set_text(_("Gateway"))        
-        self.builder.get_object("checkbutton_show_password").set_label(_("Show password"))        
+        self.builder.get_object("label_gateway").set_text(_("Gateway"))
+        self.builder.get_object("checkbutton_show_password").set_label(_("Show password"))
 
         (username, password, self.gateway_value) = self.read_configuration()
         self.username.set_text(username)
@@ -140,7 +140,7 @@ class Manager(Gtk.Application):
             model = combo.get_model()
             gateway_id, gateway_name = model[tree_iter][:2]
             self.gateway_value = gateway_id
-            self.check_entries()        
+            self.check_entries()
 
     def on_quit(self, button):
         self.quit()
