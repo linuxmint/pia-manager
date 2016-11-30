@@ -99,6 +99,7 @@ class Manager(Gtk.Application):
 
         # Signals
         self.builder.get_object("menuitem_help_contents").connect("activate", self.on_menuitem_help_contents_activated)
+        self.builder.get_object("menuitem_help_about").connect("activate", self.on_menuitem_help_about_activated)
         self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
         self.builder.get_object("button_cancel").connect("clicked", self.on_quit)
         self.builder.get_object("link_forgot_password").connect("activate-link", self.on_forgot_password_clicked)
@@ -181,11 +182,44 @@ class Manager(Gtk.Application):
 
     def on_forgot_password_clicked(self, label, uri):
         subprocess.Popen(["su", "-c", "xdg-open https://www.privateinternetaccess.com/pages/reset-password.html", self.linux_username])
-        return True
+        return True # needed to suppress the link callback in Gtk.Entry
 
     def on_menuitem_help_contents_activated(self, menuitem):
         subprocess.Popen(["su", "-c", "xdg-open https://helpdesk.privateinternetaccess.com", self.linux_username])
-        return True
+
+    def on_menuitem_help_about_activated(self, menuitem):
+        dlg = Gtk.AboutDialog()
+        dlg.set_program_name(_("PIA Manager"))
+        dlg.set_icon_name("pia-manager")
+        dlg.set_transient_for(self.window)
+        dlg.set_logo_icon_name("pia-manager")
+        dlg.set_website("http://www.github.com/linuxmint/pia-manager")
+        try:
+            h = open('/usr/share/common-licenses/GPL','r')
+            s = h.readlines()
+            gpl = ""
+            for line in s:
+                gpl += line
+            h.close()
+            dlg.set_license(gpl)
+        except Exception as e:
+            print (e)
+            print(sys.exc_info()[0])
+
+        if os.path.exists("/usr/lib/linuxmint/common/version.py"):
+            version = subprocess.getoutput("/usr/lib/linuxmint/common/version.py pia-manager")
+            dlg.set_version(version)
+
+        def close(w, res):
+            if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
+                w.hide()
+        def activate_link(label, uri):
+            subprocess.Popen(["su", "-c", "xdg-open http://www.github.com/linuxmint/pia-manager", self.linux_username])
+            return True # needed to suppress the link callback in Gtk.Entry
+        dlg.connect("response", close)
+        dlg.connect("activate-link", activate_link)
+        dlg.show()
+
 
     def on_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
