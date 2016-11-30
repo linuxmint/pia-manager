@@ -98,6 +98,7 @@ class Manager(Gtk.Application):
         self.add_window(self.window)
 
         # Signals
+        self.builder.get_object("menuitem_quit").connect("activate", self.on_quit)
         self.builder.get_object("menuitem_help_contents").connect("activate", self.on_menuitem_help_contents_activated)
         self.builder.get_object("menuitem_help_about").connect("activate", self.on_menuitem_help_about_activated)
         self.builder.get_object("entry_password").connect("icon-press", self.on_entry_icon_pressed)
@@ -229,7 +230,7 @@ class Manager(Gtk.Application):
             self.gateway_value = gateway_id
             self.check_entries()
 
-    def on_quit(self, button):
+    def on_quit(self, widget):
         self.quit()
 
     def read_configuration(self):
