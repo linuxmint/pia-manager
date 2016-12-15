@@ -1,3 +1,42 @@
+pia-manager (1.0.1) serena; urgency=medium
+
+  [ Clement Lefebvre ]
+  * Removed temp file
+  * Continued implementation
+  * Finished initial implementation
+  * Added dependencies on needed vpn packages
+  * Gateways: Removed Russia (following decision from PIA)
+
+  [ Daniel Oaks ]
+  * Allow users to update their list of gateways
+  * Update icons to newer PIA logo
+
+  [ Clement Lefebvre ]
+  * Remove trailing spaces
+  * Embed the ability to reveal the password into the password entry
+  * test script: call pia-manager with sudo
+  * Add "forgot password?" link
+  * Use symbolic icons
+  * Move the ability to refresh gateways into the UI
+  * Update l10n infrastructure
+  * Set the process name
+  * Add a menubar
+  * Add help->contents
+  * Add about dialog
+  * Add File->Quit
+  * Implement the option to skip DNS resolution
+
+  [ leigh123linux ]
+  * Create COPYING
+  * Rename pia-manager.desktop.desktop to pia-manager.desktop
+
+  [ Clement Lefebvre ]
+  * Change the way NetworkManager is restarted
+  * Add an infobar
+  * Don't restrict access to the connection to a single user
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 15 Dec 2016 13:47:28 +0000
+
 pia-manager (1.0.0) sarah; urgency=medium
 
   * Initial version
