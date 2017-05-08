@@ -215,13 +215,15 @@ class Manager(Gtk.Application):
         dlg.set_logo_icon_name("pia-manager")
         dlg.set_website("http://www.github.com/linuxmint/pia-manager")
         try:
-            h = open('/usr/share/common-licenses/GPL','r')
-            s = h.readlines()
-            gpl = ""
-            for line in s:
-                gpl += line
-            h.close()
-            dlg.set_license(gpl)
+            for path in ["/usr/share/common-licenses/GPL-3"]:
+                if os.path.exists(path):
+                    h = open(path, 'r')
+                    s = h.readlines()
+                    gpl = ""
+                    for line in s:
+                        gpl += line
+                    h.close()
+                    dlg.set_license(gpl)
         except Exception as e:
             print (e)
             print(sys.exc_info()[0])
