@@ -1,3 +1,9 @@
+pia-manager (1.0.2) sonya; urgency=medium
+
+  * Help: Make sure the path exists
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 08 May 2017 11:08:56 +0100
+
 pia-manager (1.0.1) serena; urgency=medium
 
   [ Clement Lefebvre ]
