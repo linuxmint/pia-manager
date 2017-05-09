@@ -9,14 +9,17 @@ buildmo:
 		msgfmt -o usr/share/locale/$$lang/LC_MESSAGES/pia-manager.mo $$file; \
 	done \
 
+sudo:
+	sed -i 's/sudo\|gksu\|kdesu\|pkexec/sudo/g' "usr/bin/pia-manager"
+
 gksu:
-	sed -i 's/gksu\|kdesu\|pkexec/gksu/g' "usr/bin/pia-manager"
+	sed -i 's/sudo\|gksu\|kdesu\|pkexec/gksu/g' "usr/bin/pia-manager"
 
 pkexec:
-	sed -i 's/gksu\|kdesu\|pkexec/pkexec/g' "usr/bin/pia-manager"
+	sed -i 's/sudo\|gksu\|kdesu\|pkexec/pkexec/g' "usr/bin/pia-manager"
 
 kdesu:
-	sed -i 's/gksu\|kdesu\|pkexec/kdesu/g' "usr/bin/pia-manager"
+	sed -i 's/sudo\|gksu\|kdesu\|pkexec/kdesu/g' "usr/bin/pia-manager"
 
 install:
 	cp -r usr/* /usr/
