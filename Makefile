@@ -24,12 +24,15 @@ kdesu:
 install:
 	cp -r usr/* /usr/
 	glib-compile-schemas /usr/share/glib-2.0/schemas 2> /dev/null
+	xdg-icon-resource forceupdate
 
 uninstall:
-	rm /usr/bin/pia-manager
-	rm -r /usr/lib/pia-manager/
-	rm -r /usr/share/pia-manager/
-	rm /usr/share/applications/pia-manager.desktop
+	rm -f /usr/bin/pia-manager
+	rm -rf /usr/lib/pia-manager/
+	rm -rf /usr/share/pia-manager/
+	rm -f /usr/share/applications/pia-manager.desktop
+	rm -f `find /usr/share/icons/hicolor -name pia-manager.png`
+	rm -f /usr/share/icons/hicolor/scalable/actions/pia-manager-*.svg
 
 clean:
 	rm -rf usr/share/locale
