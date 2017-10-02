@@ -49,13 +49,15 @@ dns-search=
 ip6-privacy=0
 method=auto"""
 
+TMP_CONFIG_FILE = os.path.expanduser("~/.config/pia-manager/PIA")
+os.system("mkdir -p ~/.config/pia-manager")
+
 CONFIG_FILE = '/etc/NetworkManager/system-connections/PIA'
 SKIP_DNS_KEY = 'skip-dns-resolution'
 
 class Manager(Gtk.Application):
     ''' Create the UI '''
-    def __init__(self, linux_username):
-        self.linux_username = linux_username
+    def __init__(self):
         Gtk.Application.__init__(self, application_id='com.pia.manager', flags=Gio.ApplicationFlags.FLAGS_NONE)
         self.connect("activate", self.on_activate)
 
@@ -201,11 +203,11 @@ class Manager(Gtk.Application):
             self.password.set_visibility(not self.password.get_visibility())
 
     def on_forgot_password_clicked(self, label, uri):
-        subprocess.Popen(["su", "-c", "xdg-open https://www.privateinternetaccess.com/pages/reset-password.html", self.linux_username])
+        subprocess.Popen(["xdg-open", "https://www.privateinternetaccess.com/pages/reset-password.html"])
         return True # needed to suppress the link callback in Gtk.Entry
 
     def on_menuitem_help_contents_activated(self, menuitem):
-        subprocess.Popen(["su", "-c", "xdg-open https://helpdesk.privateinternetaccess.com", self.linux_username])
+        subprocess.Popen(["xdg-open", "https://helpdesk.privateinternetaccess.com"])
 
     def on_menuitem_help_about_activated(self, menuitem):
         dlg = Gtk.AboutDialog()
@@ -235,13 +237,8 @@ class Manager(Gtk.Application):
         def close(w, res):
             if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
                 w.hide()
-        def activate_link(label, uri):
-            subprocess.Popen(["su", "-c", "xdg-open http://www.github.com/linuxmint/pia-manager", self.linux_username])
-            return True # needed to suppress the link callback in Gtk.Entry
         dlg.connect("response", close)
-        dlg.connect("activate-link", activate_link)
         dlg.show()
-
 
     def on_combo_changed(self, combo):
         self.infobar.hide()
@@ -283,18 +280,14 @@ class Manager(Gtk.Application):
         configuration = configuration.replace("PIA_GATEWAY", self.gateway_value)
         configuration = configuration.replace("UUID", str(uuid.uuid4()))
         configuration = configuration.replace("TIMESTAMP", str(int(time.time())))
-        with open(CONFIG_FILE, 'w') as fp:
+        with open(TMP_CONFIG_FILE, 'w') as fp:
             fp.writelines(configuration)
-        os.system("chmod 600 %s" % CONFIG_FILE)
-        # Restart the network manager
-        if os.path.exists("/bin/systemctl"):
-            # Systemd
-            os.system("systemctl restart NetworkManager")
-        elif os.path.exists("/etc/init.d/network-manager"):
-            # SysV
-            os.system("/etc/init.d/network-manager restart")
+        os.system("pkexec /usr/lib/pia-manager/apply-pia-configuration %s" % TMP_CONFIG_FILE)
         self.button.set_sensitive(False)
-        self.infobar.show()
+        if os.path.exists(TMP_CONFIG_FILE):
+            os.unlink(TMP_CONFIG_FILE)
+        else:
+            self.infobar.show()
 
     def check_entries(self, widget=None):
         self.infobar.hide()
@@ -304,6 +297,5 @@ class Manager(Gtk.Application):
             self.button.set_sensitive(False)
 
 if __name__ == "__main__":
-    linux_username = sys.argv[1]
-    app = Manager(linux_username)
+    app = Manager()
     app.run(None)

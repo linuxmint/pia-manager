@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+import os, sys, subprocess
+
+LOCAL_FILE = sys.argv[1]
+
+if os.path.exists(LOCAL_FILE):
+    CONFIG_FILE="/etc/NetworkManager/system-connections/PIA"
+
+    subprocess.call(["mv", LOCAL_FILE, CONFIG_FILE])
+    subprocess.call(["chown", "root:root", CONFIG_FILE])
+    subprocess.call(["chmod", "600", CONFIG_FILE])
+
+    if os.path.exists("/bin/systemctl"):
+        # Systemd
+        subprocess.call(["systemctl", "restart", "NetworkManager"])
+    elif os.path.exists("/etc/init.d/network-manager"):
+        # SysV
+        subprocess.call(["/etc/init.d/network-manager", "restart"])

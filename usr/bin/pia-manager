@@ -1,5 +1,5 @@
 #!/usr/bin/python3
 
-import os, getpass
+import os
 
-os.system("gksu /usr/lib/pia-manager/pia-manager.py '%s'" % getpass.getuser())
+os.system("/usr/lib/pia-manager/pia-manager.py")
