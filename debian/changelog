@@ -1,3 +1,10 @@
+pia-manager (1.0.3) sylvia; urgency=medium
+
+  [ Clement Lefebvre ]
+  * Run PIA Manager in user mode
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 02 Oct 2017 11:07:51 +0100
+
 pia-manager (1.0.2) sonya; urgency=medium
 
   * Help: Make sure the path exists
