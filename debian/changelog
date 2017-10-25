@@ -1,3 +1,9 @@
+pia-manager (1.0.5) sylvia; urgency=medium
+
+  * Gateways: Add South Korea and Chicago
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 25 Oct 2017 14:15:22 +0100
+
 pia-manager (1.0.4) sylvia; urgency=medium
 
   * Update package description
