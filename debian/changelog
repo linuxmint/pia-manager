@@ -1,3 +1,9 @@
+pia-manager (1.0.6) sylvia; urgency=medium
+
+  * Remember the username/password/gateway
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 13 Dec 2017 15:51:31 +0000
+
 pia-manager (1.0.5) sylvia; urgency=medium
 
   * Gateways: Add South Korea and Chicago
