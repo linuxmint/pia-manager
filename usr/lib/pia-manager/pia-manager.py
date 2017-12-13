@@ -71,6 +71,9 @@ class Manager(Gtk.Application):
 
     def create_window(self):
 
+        self.settings = Gio.Settings(schema="com.pia.manager")
+        self.skip_dns = self.settings.get_boolean(SKIP_DNS_KEY)
+
         gladefile = "/usr/share/pia-manager/main.ui"
         self.builder = Gtk.Builder()
         self.builder.add_from_file(gladefile)
@@ -104,8 +107,6 @@ class Manager(Gtk.Application):
         self.infobar.hide()
 
         # Configuration
-        self.settings = Gio.Settings(schema="com.pia.manager")
-        self.skip_dns = self.settings.get_boolean(SKIP_DNS_KEY)
         self.use_ip_addresses_checkbox = self.builder.get_object("menuitem_skip_dns")
         self.use_ip_addresses_checkbox.set_active(self.skip_dns)
 
@@ -271,13 +272,22 @@ class Manager(Gtk.Application):
                                 elif bits[0] == "remote":
                                     gateway = bits[1]
         except:
-            pass # best
+            # If we can't read the config file, we use dconf
+            username = self.settings.get_string("username")
+            password = self.settings.get_string("password")
+            gateway = self.settings.get_string("gateway")
         return (username, password, gateway)
 
     def save_configuration(self, button):
-        configuration = CONFIGURATION.replace("PIA_USERNAME", self.username.get_text())
-        configuration = configuration.replace("PIA_PASSWORD", self.password.get_text())
-        configuration = configuration.replace("PIA_GATEWAY", self.gateway_value)
+        username = self.username.get_text()
+        password = self.password.get_text()
+        gateway = self.gateway_value
+        self.settings.set_string("username", username)
+        self.settings.set_string("password", password)
+        self.settings.set_string("gateway", gateway)
+        configuration = CONFIGURATION.replace("PIA_USERNAME", username)
+        configuration = configuration.replace("PIA_PASSWORD", password)
+        configuration = configuration.replace("PIA_GATEWAY", gateway)
         configuration = configuration.replace("UUID", str(uuid.uuid4()))
         configuration = configuration.replace("TIMESTAMP", str(int(time.time())))
         with open(TMP_CONFIG_FILE, 'w') as fp:
