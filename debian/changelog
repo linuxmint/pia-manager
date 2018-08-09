@@ -1,3 +1,9 @@
+pia-manager (1.0.7) tara; urgency=medium
+
+  * Fix wrong user in polkit policy
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 09 Aug 2018 17:40:05 +0200
+
 pia-manager (1.0.6) sylvia; urgency=medium
 
   * Remember the username/password/gateway
