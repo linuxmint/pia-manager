@@ -3,6 +3,6 @@
 ## Dependencies
 - openvpn
 - networkmanager
-- newworkmanager-openvpn
+- networkmanager-openvpn
 - python3-proctitle
 
