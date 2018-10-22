@@ -138,6 +138,7 @@ class Manager(Gtk.Application):
     def load_combo(self):
         # Gateway combo
         model = Gtk.ListStore(str, str) #id, name
+        model.set_sort_column_id(1, Gtk.SortType.ASCENDING)
         selected_iter = None
         # load list of gateways
         gateway_info = []
