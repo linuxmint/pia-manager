@@ -1,3 +1,14 @@
+pia-manager (1.0.8) tara; urgency=medium
+
+  [ Elias Ojala ]
+  * Fixed a typo (#10)
+
+  [ Clement Lefebvre ]
+  * Update the list of gateways
+  * Sort the gateways alphabetically
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 22 Oct 2018 14:27:03 +0100
+
 pia-manager (1.0.7) tara; urgency=medium
 
   * Fix wrong user in polkit policy
