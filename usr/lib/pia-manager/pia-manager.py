@@ -217,7 +217,8 @@ class Manager(Gtk.Application):
         dlg.set_icon_name("pia-manager")
         dlg.set_transient_for(self.window)
         dlg.set_logo_icon_name("pia-manager")
-        dlg.set_website("http://www.github.com/linuxmint/pia-manager")
+        dlg.set_website("https://www.github.com/linuxmint/pia-manager")
+        dlg.set_version("__DEB_VERSION__")
         try:
             for path in ["/usr/share/common-licenses/GPL-3"]:
                 if os.path.exists(path):
@@ -231,10 +232,6 @@ class Manager(Gtk.Application):
         except Exception as e:
             print (e)
             print(sys.exc_info()[0])
-
-        if os.path.exists("/usr/lib/linuxmint/common/version.py"):
-            version = subprocess.getoutput("/usr/lib/linuxmint/common/version.py pia-manager")
-            dlg.set_version(version)
 
         def close(w, res):
             if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
